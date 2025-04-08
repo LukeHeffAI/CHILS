@@ -9,7 +9,7 @@ openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 def query_gpt_prompt(prompt):
     completion = openai.Completion.create(
-        model="text-davinci-002",
+        model="gpt-3.5-turbo-instruct",
         prompt=prompt,
         temperature=0.99,
         max_tokens=50,
@@ -238,4 +238,4 @@ def ClipViTB32(num_classes=10):
     return ZeroShotClip('ViT-B/32', output_size=num_classes)
 
 def ClipViTL14(num_classes=10):
-    return ZeroShotClip('ViT-L/14@336px', output_size=num_classes)
+    return ZeroShotClip('ViT-L/14', output_size=num_classes)
