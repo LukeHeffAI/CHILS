@@ -6,7 +6,7 @@ from src.train import train
 from src.utils import filter_config, get_dict_hash
 from src.simple_utils import load_pickle, dump_pickle
 
-@hydra.main(config_path="config", config_name="config")
+@hydra.main(version_base=None, config_path="config", config_name="config")
 def main(config):
     print(OmegaConf.to_yaml(config))
     # extract data and model experiment info to group runs
