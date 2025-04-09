@@ -22,3 +22,7 @@ arch: "ClipViTL14"
 pretrained: True
 base_task: "imagenet"
 num_classes: 1000
+
+hydra:
+  job:
+    chdir: false
