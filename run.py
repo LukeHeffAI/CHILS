@@ -1,9 +1,12 @@
-import hydra
+import sys
 import os
+project_root = os.path.abspath(os.path.dirname(__file__))
+sys.path.insert(0, project_root)
+import hydra
 from os.path import join
 from omegaconf import DictConfig, OmegaConf
 from src.train import train
-from src.utils import filter_config, get_dict_hash
+from src.utils import filter_config, get_dict_hash, get_class_name
 from src.simple_utils import load_pickle, dump_pickle
 
 @hydra.main(version_base=None, config_path="config", config_name="config")
