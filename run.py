@@ -7,7 +7,7 @@ from src.utils import filter_config, get_dict_hash
 from src.simple_utils import load_pickle, dump_pickle
 
 @hydra.main(version_base=None, config_path="config", config_name="config")
-def main(config):
+def main(config: DictConfig):
     print(OmegaConf.to_yaml(config))
     # extract data and model experiment info to group runs
     group_dict = dict(filter_config(config.datamodule), **filter_config(config.models))
@@ -36,7 +36,6 @@ def main(config):
 
     # start training
     train(config)
-
 
 if __name__ == "__main__":
     main()
