@@ -472,7 +472,7 @@ def get_dataset(data_dir, dataset, train, transform):
     # elif dataset.lower() == "fruits360":
     #     data = Imagenet_Folder_with_indices(data_dir + "/fruits-360/Test", transform = transform)
     if dataset.lower() == "food-101":
-        data = f101_idx(data_dir, transform = transform, split='test') 
+        data = f101_idx(pathlib.Path(FOOD101_DIR), transform = transform, split='test') 
     # elif dataset.lower() == "resisc45":
     #     data = r45_idx(data_dir + '/RESISC45', transforms = transform, split='val') 
     elif dataset.lower() == "eurosat":
