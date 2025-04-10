@@ -18,7 +18,7 @@ log_loc: logs
 # Additional hyperparams
 seed: 42
 source_dataset: "imagenet"
-arch: "ClipViTL14"
+arch: "ClipViTB32"
 pretrained: True
 base_task: "imagenet"
 num_classes: 1000
