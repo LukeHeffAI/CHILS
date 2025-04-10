@@ -1,6 +1,6 @@
 from torchvision.datasets import ImageFolder, CIFAR10, CIFAR100, FashionMNIST, Food101, EuroSAT, ImageNet, Places365
 # from torchvision.datasets import OxfordPets, DTD
-from datasets import _transform, CUBDataset
+# from datasets import _transform, CUBDataset
 import torchvision
 from torchvision import transforms
 from typing import Callable, Optional, List
