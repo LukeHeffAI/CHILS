@@ -1,12 +1,17 @@
-import sys
-import os
-project_root = os.path.abspath(os.path.dirname(__file__))
-sys.path.insert(0, project_root)
 import hydra
+import os
+import sys
+
+# Set the project root as the current directory where run.py is located.
+project_root = os.path.abspath(os.path.dirname(__file__))
+os.environ["PYTHONPATH"] = project_root  # This sets PYTHONPATH for child processes.
+sys.path.insert(0, project_root)
+
+
 from os.path import join
 from omegaconf import DictConfig, OmegaConf
 from src.train import train
-from src.utils import filter_config, get_dict_hash, get_class_name
+from src.utils import filter_config, get_dict_hash
 from src.simple_utils import load_pickle, dump_pickle
 
 @hydra.main(version_base=None, config_path="config", config_name="config")
