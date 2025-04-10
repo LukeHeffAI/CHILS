@@ -68,25 +68,48 @@ class EvalNet(pl.LightningModule):
         # pass
 
     def test_step(self, batch, batch_idx: int, dataloader_idx: int = 0):
-        labels, outputs, idx, features = self.process_batch(batch, "pred",dataloader_idx)
+        # Process the batch and get outputs as before:
+        outputs = self.process_batch(batch, "pred", dataloader_idx)
         
-        return labels, outputs, idx, features
+        # Ensure self.test_outputs exists and append the outputs:
+        if not hasattr(self, "test_outputs"):
+            self.test_outputs = []
+        self.test_outputs.append(outputs)
+        
+        return outputs
 
-    def test_epoch_end(self, outputs_list):
-        
-        
+
+    def on_test_epoch_end(self):
+        # Retrieve the stored outputs:
+        outputs_list = self.test_outputs if hasattr(self, "test_outputs") else []
+
+        # If nothing was stored, you might just exit:
+        if not outputs_list:
+            return
+
+        # Process the stored outputs:
         labels = torch.cat([x[0] for x in outputs_list])
         outputs = torch.cat([x[1] for x in outputs_list])
         idx = torch.cat([x[2] for x in outputs_list])
         features = torch.cat([x[3] for x in outputs_list])
 
-        if not os.path.exists(self.work_dir + f"/{self.arch}"):
-            os.mkdir(self.work_dir + f"/{self.arch}")
-        np.savez(self.work_dir + f"/{self.arch}/conf_" + self.target_dataset.lower() +".npz",\
-            labels = labels.detach().cpu().numpy(),\
-            outputs = outputs.detach().cpu().numpy(),\
-            indices = idx.detach().cpu().numpy(),\
-            features = features.detach().cpu().numpy())
+        # Create directory if it doesn't exist:
+        out_dir = os.path.join(self.work_dir, f"{self.arch}")
+        if not os.path.exists(out_dir):
+            os.mkdir(out_dir)
+
+        # Save the aggregated outputs:
+        np.savez(
+            os.path.join(out_dir, f"conf_{self.target_dataset.lower()}.npz"),
+            labels=labels.detach().cpu().numpy(),
+            outputs=outputs.detach().cpu().numpy(),
+            indices=idx.detach().cpu().numpy(),
+            features=features.detach().cpu().numpy()
+        )
+
+        # Optionally, clear the stored outputs:
+        self.test_outputs.clear()
+
 
     def configure_optimizers(self):
         pass
