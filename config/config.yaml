@@ -17,11 +17,11 @@ log_loc: logs
 
 # Additional hyperparams
 seed: 42
-source_dataset: "food-101"
+source_dataset: "dtd"
 arch: "ClipViTB32"
 pretrained: True
-base_task: "food-101"
-num_classes: 101
+base_task: "dtd"
+num_classes: 47
 
 hydra:
   job:
