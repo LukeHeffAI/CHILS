@@ -12,16 +12,16 @@ data_dir: ${data_loc}
 log_dir: ${work_dir}/${log_loc}
 
 # path to folder with data
-data_loc: "INSERT PATH HERE"
+data_loc: "~/Documents/GitHub/data"
 log_loc: logs
 
 # Additional hyperparams
 seed: 42
-source_dataset: "imagenet"
+source_dataset: "food-101"
 arch: "ClipViTB32"
 pretrained: True
-base_task: "imagenet"
-num_classes: 1000
+base_task: "food-101"
+num_classes: 101
 
 hydra:
   job:
