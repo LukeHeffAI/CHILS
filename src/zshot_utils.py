@@ -47,8 +47,8 @@ Imagenet_Folder_with_indices = dataset_with_indices(ImageFolder)
 
 def query_gpt_prompt(prompt):
     
-    completion = openai.Completion.create(
-        model="text-davinci-002",
+    completion = openai.completions.create(
+        model="gpt-3.5-turbo-instruct",
         prompt=prompt,
         temperature=0.15,
         max_tokens=512,
@@ -394,7 +394,7 @@ def find_classes(dir):
 
 
 def get_mapping(data_dir, dataset_name, idir): 
-    DG = BreedsDatasetGenerator(f"{data_dir}/imagenet/imageNet_hierarchy/")
+    DG = BreedsDatasetGenerator(f"{data_dir}/imagenet/imagenet_hierarchy/")
 
     if 'inet' in dataset_name:
         ret = DG.get_superclasses(level=int(dataset_name[-1]),
@@ -405,7 +405,7 @@ def get_mapping(data_dir, dataset_name, idir):
         )
         label_mapping = get_label_mapping('custom_imagenet',ret[1][0]) 
     else:
-        ret = eval(f"make_{dataset_name}")(data_dir + '/imagenet/imageNet_hierarchy/', split='good')
+        ret = eval(f"make_{dataset_name}")(data_dir + '/imagenet/imagenet_hierarchy/', split='good')
     # if dataset_name.startswith("living17"): 
     #     ret = make_living17(data_dir, split="good")
     # elif dataset_name.startswith("entity13"):
