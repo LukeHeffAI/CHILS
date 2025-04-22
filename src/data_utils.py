@@ -1,5 +1,5 @@
 from torchvision.datasets import ImageFolder, CIFAR10, CIFAR100, FashionMNIST, Food101, EuroSAT, ImageNet, Places365, DTD
-from datasets import _transform, CUBDataset
+# from datasets import _transform, CUBDataset
 import torchvision
 from torchvision import transforms
 from typing import Callable, Optional, List
@@ -454,7 +454,7 @@ def get_dataset(data_dir, dataset, train, transform):
     # r45_idx = dataset_with_indices(RESISC45)
     esat_idx = dataset_with_indices(EuroSAT)
     inet_idx = dataset_with_indices(ImageNet)
-    cub_idx = dataset_with_indices(CUBDataset)
+    # cub_idx = dataset_with_indices(CUBDataset)
     dtd_idx = dataset_with_indices(DTD)
     places_idx = dataset_with_indices(Places365)
     pets_idx = dataset_with_indices(ImageFolder)
