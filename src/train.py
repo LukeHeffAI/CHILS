@@ -39,11 +39,21 @@ def train(config: DictConfig):
         # callbacks=[EarlyStopping(monitor="pred_acc", mode='max', patience=10)]
     )
 
-    log.info(f"Instantiating model <{config.models._target_}>")
-    model: LightningModule = hydra.utils.instantiate(config.models)
 
     log.info(f"Instantiating datamodule <{config.datamodule._target_}>")
     datamodule: LightningDataModule = hydra.utils.instantiate(config.datamodule)
+
+    try:
+        classnames = datamodule.train_dataset.classes
+    except AttributeError:
+        # fallback to first dataloader’s dataset
+        classnames = datamodule.train_dataloader().dataset.classes
+
+    log.info(f"Instantiating model <{config.models._target_}>")
+    model: LightningModule = hydra.utils.instantiate(
+        config.models,
+        classnames=classnames,
+    )
 
     log.info("Logging hyperparameters!")
     log_hyperparams(config=config, trainer=trainer)
