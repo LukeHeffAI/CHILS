@@ -456,11 +456,11 @@ def get_dataset(data_dir, dataset, train, transform):
     esat_idx = dataset_with_indices(EuroSAT)
     inet_idx = dataset_with_indices(ImageNet)
 
-    IMAGENET_DIR = '/home/luke/Documents/GitHub/data/ImageNet/'
+    IMAGENET_DIR = '/home/luke/Documents/GitHub/data/imagenet/'
     IMAGENETV2_DIR = '/home/luke/Documents/GitHub/data/ImageNetV2/'
     CUB_DIR = '/home/luke/Documents/GitHub/data/CUB/CUB_200_2011/'
     EUROSAT_DIR = '/home/luke/Documents/GitHub/data/EuroSAT/2750/'
-    FOOD101_DIR = '/home/luke/Documents/GitHub/data/FOOD_101/food-101/food-101/'
+    FOOD101_DIR = '/home/luke/Documents/GitHub/data/FOOD_101/food-101/'
     PETS_DIR = '/home/luke/Documents/GitHub/data/Oxford_Pets/'
     DTD_DIR = '/home/luke/Documents/GitHub/data/DTD/dtd/'
     PLACES_DIR = '/home/luke/Documents/GitHub/data/places_devkit/torch_download/'
