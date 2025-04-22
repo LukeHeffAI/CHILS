@@ -27,18 +27,22 @@ from models.clip_models import *
 from src.zshot_utils import *
 from src.constants import *
 from src.get_inputs import *
+from dotenv import load_dotenv
 
+load_dotenv()
 openai.api_key = os.environ.get("OPENAI_API_KEY")
+
+data_dir = "/home/luke/Documents/GitHub/data"
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("--dataset", type=str, default='nonliving26')
-parser.add_argument("--domain", type=str, default='all')
-parser.add_argument("--model", type=str, default='ClipViTL14')
-parser.add_argument("--experiment", type=str, default='true')
-parser.add_argument("--data-dir", type=str)
+parser.add_argument("--dataset", type=str, default='food-101')
+parser.add_argument("--domain", type=str, default='food-101')
+parser.add_argument("--model", type=str, default='ClipViTB32')
+parser.add_argument("--experiment", type=str, default='gpt')
+parser.add_argument("--data-dir", type=str, default=data_dir + '/FOOD_101')
 parser.add_argument("--mod-out-dir", type=str, default='')
-parser.add_argument("--out-dir", type=str)
+parser.add_argument("--out_dir", type=str, default='./zshot_outputs')
 parser.add_argument("--label-set-size", type=int, default=10)
 parser.add_argument("--temp", type=float, default=0.7)
 parser.add_argument("--rerun-gpt", action='store_true')
