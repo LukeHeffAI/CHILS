@@ -1,1 +1,10 @@
 .env
+lightning_logs/*
+logs/*
+outputs/*/*/*/*
+outputs/*/*/run.log
+ClipViTB32/*
+ClipViTB16/*
+ClipViTL14/*
+*/__pycache__/*
+zshot_outputs/*
