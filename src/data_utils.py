@@ -1,6 +1,5 @@
-from torchvision.datasets import ImageFolder, CIFAR10, CIFAR100, FashionMNIST, Food101, EuroSAT, ImageNet, Places365
-# from torchvision.datasets import OxfordPets, DTD
-# from datasets import _transform, CUBDataset
+from torchvision.datasets import ImageFolder, CIFAR10, CIFAR100, FashionMNIST, Food101, EuroSAT, ImageNet, Places365, DTD
+from datasets import _transform, CUBDataset
 import torchvision
 from torchvision import transforms
 from typing import Callable, Optional, List
@@ -455,12 +454,16 @@ def get_dataset(data_dir, dataset, train, transform):
     # r45_idx = dataset_with_indices(RESISC45)
     esat_idx = dataset_with_indices(EuroSAT)
     inet_idx = dataset_with_indices(ImageNet)
+    cub_idx = dataset_with_indices(CUBDataset)
+    dtd_idx = dataset_with_indices(DTD)
+    places_idx = dataset_with_indices(Places365)
+    pets_idx = dataset_with_indices(ImageFolder)
 
     IMAGENET_DIR = '/home/luke/Documents/GitHub/data/imagenet/'
     IMAGENETV2_DIR = '/home/luke/Documents/GitHub/data/ImageNetV2/'
     CUB_DIR = '/home/luke/Documents/GitHub/data/CUB/CUB_200_2011/'
-    EUROSAT_DIR = '/home/luke/Documents/GitHub/data/EuroSAT/2750/'
-    FOOD101_DIR = '/home/luke/Documents/GitHub/data/FOOD_101/food-101/'
+    EUROSAT_DIR = '/home/luke/Documents/GitHub/data/'
+    FOOD101_DIR = '/home/luke/Documents/GitHub/data/FOOD_101/'
     PETS_DIR = '/home/luke/Documents/GitHub/data/Oxford_Pets/'
     DTD_DIR = '/home/luke/Documents/GitHub/data/DTD/dtd/'
     PLACES_DIR = '/home/luke/Documents/GitHub/data/places_devkit/torch_download/'
@@ -476,7 +479,7 @@ def get_dataset(data_dir, dataset, train, transform):
     # elif dataset.lower() == "resisc45":
     #     data = r45_idx(data_dir + '/RESISC45', transforms = transform, split='val') 
     elif dataset.lower() == "eurosat":
-        data = esat_idx(pathlib.Path(EUROSAT_DIR), transform = transform, download=True) 
+        data = esat_idx(pathlib.Path(EUROSAT_DIR), transform = transform, download=False) 
     # elif dataset.lower() == "lsun-scene":
     #     data = Imagenet_Folder_with_indices(data_dir + "/lsun/scene", transform = transform) 
     # elif dataset.lower() in ["fashion1M", 'fashion1m']:
@@ -512,9 +515,9 @@ def get_dataset(data_dir, dataset, train, transform):
     # elif dataset.lower() == "officehome-clipart":
     #     data = Imagenet_Folder_with_indices(data_dir + "/officehome/Clipart/", transform = transform)  
     # elif dataset.lower() == "fashion-mnist": 
-        data = fm_idx(root = data_dir, train=False, transform=transform, download=True)
+        # data = fm_idx(root = data_dir, train=False, transform=transform, download=True)
     elif dataset.lower() == "pets":
-        data = ImageFolder_with_indices(pathlib.Path(PETS_DIR), transform = transform)
+        data = ImageFolder_with_indices((str(pathlib.Path(PETS_DIR) / 'images')), transform = transform)
     elif dataset.lower() == "cub":
         data = ImageFolder_with_indices(pathlib.Path(CUB_DIR), transform=transform)
     elif dataset.lower() == "places365":
