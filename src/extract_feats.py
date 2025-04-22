@@ -15,9 +15,9 @@ log = logging.getLogger("app")
 class EvalNet(pl.LightningModule):
     def __init__(
         self,
-        arch: str = "Resnet50",
+        arch: str = "ClipViTB32",
         retrain: bool = False,
-        base_task: str = "Imagenet",
+        base_task: str = "food-101",
         pretrained: bool = True,
         target_dataset: List[str] = [], 
         work_dir: str = ".",
