@@ -489,11 +489,26 @@ TEMPLATES = {
       'a tattoo of the {}.',
    ],
    'food-101': [
-    'a photo of {}, a type of food.',
     'a photo of {}, a type of food.'
+   ],
+   'pets': [
+    'a photo of a {}, a type of pet.'
    ],
    'fruits360': [
       'a photo of {}, a type of fruit.'
+   ],
+   'dtd': [
+    'a photo of a {} texture.',
+    'a photo of a {} pattern.',
+    'a photo of a {} thing.',
+    'a photo of a {} object.',
+    'a photo of the {} texture.',
+    'a photo of the {} pattern.',
+    'a photo of the {} thing.',
+    'a photo of the {} object.',
+   ],
+   'cub': [
+    'a photo of a {}, a type of bird.',
    ],
    'cifar20': [
       'a photo of a {}.',
@@ -584,12 +599,16 @@ USETEMPLATES = {
    'inet6': 'imagenet',
    'lsun-scene': 'imagenet', 
    'fashion1M': 'fashion1M', 
-   'objectnet': 'imagenet', 
+   'objectnet': 'imagenet',
+   'places365': 'imagenet',
    'food-101': 'food-101', 
    'fruits360': 'fruits360', 
    'office31': 'office31', 
    'officehome': 'imagenet', 
    'fashion-mnist': 'imagenet',
    'eurosat': 'eurosat',
-   'resisc45': 'resisc45'
+   'resisc45': 'resisc45',
+   'cub': 'cub',
+   'dtd': 'dtd',
+   'pets': 'pets'
 }
