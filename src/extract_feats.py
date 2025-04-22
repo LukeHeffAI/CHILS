@@ -19,7 +19,8 @@ class EvalNet(pl.LightningModule):
         retrain: bool = False,
         base_task: str = "food-101",
         pretrained: bool = True,
-        target_dataset: List[str] = [], 
+        target_dataset: List[str] = [],
+        classnames: Optional[List[str]] = None,
         work_dir: str = ".",
         max_epochs: int = 1,
         hash: Optional[str] = None
@@ -29,8 +30,9 @@ class EvalNet(pl.LightningModule):
         self.arch = arch
         self.model = get_model(arch = arch, dataset = base_task , pretrained= pretrained, retrain=False, extract_features=True, work_dir=work_dir)
         
-        
-        self.model.init_text(base_task.lower())
+        if classnames is None:
+            raise ValueError("You must pass dataset classnames into EvalNet")
+        self.model.init_text(base_task.lower(), classnames)
         self.target_dataset = target_dataset
 
         # self.pred_acc = nn.ModuleList([Accuracy() for _ in self.target_dataset])
