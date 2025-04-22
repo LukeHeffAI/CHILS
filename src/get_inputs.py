@@ -34,8 +34,8 @@ def get_inputs(args):
         feature_path = args.mod_out_dir + "/" + feature_path
     features_file= feature_path + "/conf_%s.npz"
     if args.dataset in ['nonliving26', 'living17', 'entity13', 'entity30', 'inet1', 'inet2', 'inet3', 'inet4', 'inet5', 'inet6']:
-        hier = ClassHierarchy(f"{args.data_dir}/imagenet/imageNet_hierarchy/")
-        DG = BreedsDatasetGenerator(f"{args.data_dir}/imagenet/imageNet_hierarchy/")
+        hier = ClassHierarchy(f"{args.data_dir}/imagenet/imagenet_hierarchy/")
+        DG = BreedsDatasetGenerator(f"{args.data_dir}/imagenet/imagenet_hierarchy/")
         data = np.load(features_file % args.domain)
         idir = get_idir(args.data_dir, args.domain)
         features, labels, outputs, indices = prep_data(data, args, idir)
@@ -47,7 +47,7 @@ def get_inputs(args):
                 balanced=False
             )
         else:
-            ret = eval(f"make_{args.dataset}")(f"{args.data_dir}/imagenet/imageNet_hierarchy/", split='good')
+            ret = eval(f"make_{args.dataset}")(f"{args.data_dir}/imagenet/imagenet_hierarchy/", split='good')
         info_df = print_dataset_info(ret[0],ret[1],ret[2], hier.LEAF_NUM_TO_NAME)
         if 'inet' not in args.dataset:
             info_df['subclasses'] = info_df['subclasses (source)'] + info_df['subclasses (target)']
