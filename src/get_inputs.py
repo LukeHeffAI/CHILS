@@ -120,8 +120,8 @@ def get_inputs(args):
     elif args.dataset == 'eurosat':
         data = np.load(features_file % 'eurosat')
         features, labels, outputs, indices = data["features"], data["labels"], data["outputs"], data["indices"]
-        datad = Imagenet_Folder_with_indices(f'{args.data_dir}/eurosat/2750/')
-        _, breeds_idx = datad.find_classes(f'{args.data_dir}/eurosat/2750/')
+        datad = Imagenet_Folder_with_indices(f'{args.data_dir}/EuroSAT/2750/')
+        _, breeds_idx = datad.find_classes(f'{args.data_dir}/EuroSAT/2750/')
         breeds_idx = {EUROFILE2NAME[k]: v for k,v in breeds_idx.items()}
         super_classes = list(breeds_idx.keys())
 
