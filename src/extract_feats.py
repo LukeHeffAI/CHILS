@@ -30,9 +30,10 @@ class EvalNet(pl.LightningModule):
         self.arch = arch
         self.model = get_model(arch = arch, dataset = base_task , pretrained= pretrained, retrain=False, extract_features=True, work_dir=work_dir)
         
-        if classnames is None:
-            raise ValueError("You must pass dataset classnames into EvalNet")
-        self.model.init_text(base_task.lower(), classnames)
+        # if classnames is None:
+        #     raise ValueError("You must pass dataset classnames into EvalNet")
+        # self.model.init_text(base_task.lower(), classnames)
+        self.model.init_text(base_task.lower())
         self.target_dataset = target_dataset
 
         # self.pred_acc = nn.ModuleList([Accuracy() for _ in self.target_dataset])
