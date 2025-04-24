@@ -43,7 +43,7 @@ def main(config: DictConfig):
         os.mkdir(raw_path)
 
     # start training
-    train(config)
+    train(config)       # TODO: add transforms to L/14 model size in data
 
 if __name__ == "__main__":
     main()
