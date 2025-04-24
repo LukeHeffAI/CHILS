@@ -38,7 +38,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("--dataset", type=str, default='food-101')
 parser.add_argument("--domain", type=str, default='food-101')
-parser.add_argument("--model", type=str, default='ClipViTB32')
+parser.add_argument("--model", type=str, default='ClipViTL14')
 parser.add_argument("--experiment", type=str, default='gpt')
 parser.add_argument("--data-dir", type=str, default= data_dir + '/FOOD_101')
 parser.add_argument("--mod-out-dir", type=str, default='')
