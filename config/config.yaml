@@ -17,11 +17,11 @@ log_loc: logs
 
 # Additional hyperparams
 seed: 42
-source_dataset: "dtd"
-arch: "ClipViTB32"
+source_dataset: "eurosat"
+arch: "ClipViTL14"
 pretrained: True
-base_task: "dtd"
-num_classes: 47
+base_task: "eurosat"
+num_classes: 10
 
 hydra:
   job:
