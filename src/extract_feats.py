@@ -20,7 +20,7 @@ class EvalNet(pl.LightningModule):
         base_task: str = "food-101",
         pretrained: bool = True,
         target_dataset: List[str] = [],
-        classnames: Optional[List[str]] = None,
+        # classnames: Optional[List[str]] = None,
         work_dir: str = ".",
         max_epochs: int = 1,
         hash: Optional[str] = None
