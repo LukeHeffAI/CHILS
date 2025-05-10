@@ -1,6 +1,6 @@
 _target_: src.datamodule.DataModule
 data_dir: ${data_dir} 
-target_dataset: ${source_dataset}
+target_dataset: "imagenet"  # Change this to your desired dataset: "cub", "dtd", "eurosat", "food-101", "imagenet", "pets", "places365"
 batch_size: 128
 num_classes: ${num_classes}
 clip_transform: ${arch}

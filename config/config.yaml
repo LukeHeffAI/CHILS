@@ -15,13 +15,13 @@ log_dir: ${work_dir}/${log_loc}
 data_loc: "~/Documents/GitHub/data"
 log_loc: logs
 
-# Additional hyperparams
+# Additional hyperparams, with dataset chosen in datamodule/data.yaml
 seed: 42
-source_dataset: "eurosat"
-arch: "ClipViTL14"
+source_dataset: null  # Will be dynamically set in run.py
+arch: "ClipViTB32"
 pretrained: True
-base_task: "eurosat"
-num_classes: 10
+base_task: null  # Will be dynamically set in run.py
+# num_classes will be automatically determined in run.py
 
 hydra:
   job:
