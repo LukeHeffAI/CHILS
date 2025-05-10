@@ -583,7 +583,11 @@ CONTEXTS = {
    'fashion1M': 'article of clothing',
    'fashion-mnist': 'article of clothing',
    'food-101': 'food',
-   'fruits360': 'fruit'
+   'fruits360': 'fruit',
+   'cub': 'bird',
+   'dtd': 'texture',
+   'pets': 'pet animal',
+   'places365': 'place or scene'
 }
 USETEMPLATES = {
    'cifar20': 'imagenet',
