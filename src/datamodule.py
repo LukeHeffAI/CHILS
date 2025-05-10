@@ -30,6 +30,8 @@ class DataModule(pl.LightningDataModule):
 
         # load the appropriate CLIP preprocess for all splits
         if clip_transform == 'ClipViTL14':
+            _, preprocess = clip.load("ViT-L/14",        device='cuda')
+        elif clip_transform == 'ClipViTL14_336':
             _, preprocess = clip.load("ViT-L/14@336px",  device='cuda')
         elif clip_transform == 'ClipViTB32':
             _, preprocess = clip.load("ViT-B/32",        device='cuda')
