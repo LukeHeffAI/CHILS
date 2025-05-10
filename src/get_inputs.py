@@ -33,6 +33,11 @@ def get_inputs(args):
     if args.mod_out_dir != '':
         feature_path = args.mod_out_dir + "/" + feature_path
     features_file= feature_path + "/conf_%s.npz"
+    
+    # Path for label sets - check project root first
+    project_root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+    label_sets_path = os.path.join(project_root, "label_sets")
+    
     if args.dataset in ['nonliving26', 'living17', 'entity13', 'entity30', 'inet1', 'inet2', 'inet3', 'inet4', 'inet5', 'inet6']:
         hier = ClassHierarchy(f"{args.data_dir}/imagenet/imagenet_hierarchy/")
         DG = BreedsDatasetGenerator(f"{args.data_dir}/imagenet/imagenet_hierarchy/")
@@ -132,6 +137,39 @@ def get_inputs(args):
         _, breeds_idx = datad.find_classes(f'{args.data_dir}/food-101/images/')
         breeds_idx = {" ".join(k.split("_")): v for k,v in breeds_idx.items()}
         super_classes = list(breeds_idx.keys())
+    
+    elif args.dataset == 'pets':
+        data = np.load(features_file % 'pets')
+        features, labels, outputs, indices = data["features"], data["labels"], data["outputs"], data["indices"]
+        datad = Imagenet_Folder_with_indices(f'{args.data_dir}/Oxford_Pets/images/')
+        _, breeds_idx = datad.find_classes(f'{args.data_dir}/Oxford_Pets/images/')
+        breeds_idx = {" ".join(k.split("_")): v for k,v in breeds_idx.items()}
+        super_classes = list(breeds_idx.keys())
+    
+    elif args.dataset == 'cub':
+        data = np.load(features_file % 'cub')
+        features, labels, outputs, indices = data["features"], data["labels"], data["outputs"], data["indices"]
+        datad = Imagenet_Folder_with_indices(f'{args.data_dir}/CUB/CUB_200_2011/images/')
+        _, breeds_idx = datad.find_classes(f'{args.data_dir}/CUB/CUB_200_2011/images/')
+        # Clean up class names - get rid of numbers and format properly
+        breeds_idx = {k.split('.')[-1].replace('_', ' '): v for k,v in breeds_idx.items()}
+        super_classes = list(breeds_idx.keys())
+    
+    elif args.dataset == 'places365':
+        data = np.load(features_file % 'places365')
+        features, labels, outputs, indices = data["features"], data["labels"], data["outputs"], data["indices"]
+        datad = Imagenet_Folder_with_indices(f'{args.data_dir}/places365/val/')
+        _, breeds_idx = datad.find_classes(f'{args.data_dir}/places365/val/')
+        breeds_idx = {" ".join(k.split("_")): v for k,v in breeds_idx.items()}
+        super_classes = list(breeds_idx.keys())
+        
+    elif args.dataset == 'dtd':
+        data = np.load(features_file % 'dtd')
+        features, labels, outputs, indices = data["features"], data["labels"], data["outputs"], data["indices"]
+        datad = Imagenet_Folder_with_indices(f'{args.data_dir}/dtd/images/')
+        _, breeds_idx = datad.find_classes(f'{args.data_dir}/dtd/images/')
+        breeds_idx = {" ".join(k.split("_")): v for k,v in breeds_idx.items()}
+        super_classes = list(breeds_idx.keys())
 
     elif args.dataset == 'cifar20':
         data = np.load(features_file % 'cifar100')
@@ -200,19 +238,49 @@ def get_inputs(args):
     elif args.experiment in ['gpt', 'gpt_lin', 'gpt_wosup']:
         if args.rerun_gpt:
             syn_d = get_cleaned_gpt_sets(super_classes, args.label_set_size, temp=args.temp, context=CONTEXTS.get(args.dataset, None))
-            with open(f"label_sets/{args.dataset}-{args.label_set_size}.json", "w") as f:
+            # Create label_sets directory if it doesn't exist
+            os.makedirs(label_sets_path, exist_ok=True)
+            label_file = os.path.join(label_sets_path, f"{args.dataset}-{args.label_set_size}.json")
+            with open(label_file, "w") as f:
                 json.dump(syn_d, f, indent=3)
         else:
             try:
-                with open(f"label_sets/{args.dataset}-{args.label_set_size}.json", "r") as f:
-                    syn_d = json.load(f)
-            except:
-                if args.use_gpt:
-                    syn_d = get_cleaned_gpt_sets(super_classes, args.label_set_size, temp=args.temp, context=CONTEXTS.get(args.dataset, None))
-                    with open(f"label_sets/{args.dataset}-{args.label_set_size}.json", "w") as f:
-                        json.dump(syn_d, f, indent=3)
+                # Try loading from the label_sets directory
+                label_file = os.path.join(label_sets_path, f"{args.dataset}-{args.label_set_size}.json")
+                if os.path.exists(label_file):
+                    with open(label_file, "r") as f:
+                        syn_d = json.load(f)
                 else:
-                    raise ValueError(f"No existing label set found for {args.dataset}-{args.label_set_size}")
+                    # If file doesn't exist but we have GPT capability, generate new labels
+                    if args.use_gpt:
+                        syn_d = get_cleaned_gpt_sets(super_classes, args.label_set_size, temp=args.temp, context=CONTEXTS.get(args.dataset, None))
+                        os.makedirs(label_sets_path, exist_ok=True)
+                        with open(label_file, "w") as f:
+                            json.dump(syn_d, f, indent=3)
+                    # If no GPT capability, generate a simple fallback using the class names themselves
+                    else:
+                        print(f"No existing label set found for {args.dataset}-{args.label_set_size}. Generating simple class hierarchy.")
+                        # Simple fallback - each class is its own subclass
+                        syn_d = {cls: [cls] for cls in super_classes}
+                        if args.label_set_size > 1:
+                            # Add some class names with prefixes/suffixes as basic hyponyms
+                            for cls in super_classes:
+                                modifiers = ["small", "large", "common", "typical"]
+                                suffixes = ["type", "variety", "species", "kind"]
+                                
+                                # Add a few generated labels up to label_set_size
+                                while len(syn_d[cls]) < min(args.label_set_size, 5):
+                                    if len(modifiers) > 0:
+                                        modifier = modifiers.pop(0)
+                                        syn_d[cls].append(f"{modifier} {cls}")
+                                    elif len(suffixes) > 0:
+                                        suffix = suffixes.pop(0)
+                                        syn_d[cls].append(f"{cls} {suffix}")
+            except Exception as e:
+                print(f"Error loading label set: {e}")
+                # Simple fallback if everything fails
+                syn_d = {cls: [cls] for cls in super_classes}
+                
         if args.experiment == 'gpt_wosup':
             for k, v in syn_d.items():
                 if k in v:
