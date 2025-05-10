@@ -1,4 +1,4 @@
-from torchvision.datasets import ImageFolder, CIFAR10, CIFAR100, FashionMNIST, Food101, EuroSAT, ImageNet, Places365, DTD
+from torchvision.datasets import ImageFolder, CIFAR10, CIFAR100, FashionMNIST, Food101, EuroSAT, ImageNet, Places365, DTD, OxfordIIITPet
 from torchvision import datasets
 from torchvision import transforms
 from torchvision.transforms import InterpolationMode
@@ -562,7 +562,6 @@ def _transform(n_px):
     ])
     
 
-
 def get_dataset(data_dir, dataset, train, transform): 
 
     Imagenet_Folder_with_indices = dataset_with_indices(ImageFolder)
@@ -574,78 +573,66 @@ def get_dataset(data_dir, dataset, train, transform):
     # r45_idx = dataset_with_indices(RESISC45)
     esat_idx = dataset_with_indices(EuroSAT)
     inet_idx = dataset_with_indices(ImageNet)
-    cub_idx = dataset_with_indices(CUBDataset)
     dtd_idx = dataset_with_indices(DTD)
     places_idx = dataset_with_indices(Places365)
-    pets_idx = dataset_with_indices(ImageFolder)
+    pets_idx = dataset_with_indices(OxfordIIITPet)
 
-    IMAGENET_DIR = '/home/luke/Documents/GitHub/data/imagenet/'
-    IMAGENETV2_DIR = '/home/luke/Documents/GitHub/data/ImageNetV2/'
-    CUB_DIR = '/home/luke/Documents/GitHub/data/CUB/CUB_200_2011/'
-    EUROSAT_DIR = '/home/luke/Documents/GitHub/data/'
-    FOOD101_DIR = '/home/luke/Documents/GitHub/data/FOOD_101/'
-    PETS_DIR = '/home/luke/Documents/GitHub/data/Oxford_Pets/'
-    DTD_DIR = '/home/luke/Documents/GitHub/data/DTD/dtd/'
-    PLACES_DIR = '/home/luke/Documents/GitHub/data/places_devkit/torch_download/'
-
-    # if dataset.lower() == "cifar100":
-    #     data = c100_idx(root = data_dir + "/cifar100/", train=False, transform=transform, download=True)    
-    # elif dataset.lower() == "imagenet-sketch":
-    #     data = inet_idx(data_dir + "/imagenet/imagenet-sketch/sketch", transform = transform, split='val')
-    # elif dataset.lower() == "fruits360":
-    #     data = Imagenet_Folder_with_indices(data_dir + "/fruits-360/Test", transform = transform)
-    if dataset.lower() == "food-101":
-        data = f101_idx(pathlib.Path(FOOD101_DIR), transform = transform, split='test') 
+    if dataset.lower() == "cifar100":
+        data = c100_idx(root = data_dir, train=False, transform=transform, download=True)    
+    elif dataset.lower() == "imagenet-sketch":
+        data = inet_idx(data_dir + "/imagenet/imagenet-sketch/sketch", transform = transform, split='val')
+    elif dataset.lower() == "fruits360":
+        data = Imagenet_Folder_with_indices(data_dir + "/fruits-360/Test", transform = transform)
+    elif dataset.lower() == "food-101":
+        data = f101_idx(root=data_dir + "/FOOD_101", transform = transform, split='test') 
     # elif dataset.lower() == "resisc45":
     #     data = r45_idx(data_dir + '/RESISC45', transforms = transform, split='val') 
     elif dataset.lower() == "eurosat":
-        data = esat_idx(pathlib.Path(EUROSAT_DIR), transform = transform, download=False) 
-    # elif dataset.lower() == "lsun-scene":
-    #     data = Imagenet_Folder_with_indices(data_dir + "/lsun/scene", transform = transform) 
-    # elif dataset.lower() in ["fashion1M", 'fashion1m']:
-    #     data = Imagenet_Folder_with_indices(data_dir + "/fashion1M/clean_data", transform = transform)
+        data = esat_idx(data_dir, transform = transform, download=False) 
+    elif dataset.lower() == "lsun-scene":
+        data = Imagenet_Folder_with_indices(data_dir + "/lsun/scene", transform = transform) 
+    elif dataset.lower() in ["fashion1M", 'fashion1m']:
+        data = Imagenet_Folder_with_indices(data_dir + "/fashion1M/clean_data", transform = transform)
     elif dataset.lower() == "imagenet":
-        data = Imagenet_Folder_with_indices(pathlib.Path(IMAGENET_DIR), transform = transform)
-    # elif dataset.lower() == "objectnet":
-    #     data = Imagenet_Folder_with_indices(data_dir + "/objectnet-1.0/images", transform = transform)
-    # elif dataset.lower() == "imagenet-c1":
-    #     data = Imagenet_Folder_with_indices(data_dir + "/imagenet/imagenet-c/fog/1", transform = transform)
-    # elif dataset.lower() == "imagenet-c2":
-    #     data = Imagenet_Folder_with_indices(data_dir + "/imagenet/imagenet-c/contrast/2", transform = transform)
-    # elif dataset.lower() == "imagenet-c3":
-    #     data = Imagenet_Folder_with_indices(data_dir + "/imagenet/imagenet-c/snow/3", transform = transform)
-    # elif dataset.lower() == "imagenet-c4":
-    #     data = Imagenet_Folder_with_indices(data_dir + "/imagenet/imagenet-c/gaussian_blur/4", transform = transform)
-    # elif dataset.lower() == "imagenet-c5":
-    #     data = Imagenet_Folder_with_indices(data_dir + "/imagenet/imagenet-c/saturate/5", transform = transform)
+        data = Imagenet_Folder_with_indices(data_dir + "/imagenet/val", transform = transform)
+    elif dataset.lower() == "objectnet":
+        data = Imagenet_Folder_with_indices(data_dir + "/objectnet-1.0/images", transform = transform)
+    elif dataset.lower() == "imagenet-c1":
+        data = Imagenet_Folder_with_indices(data_dir + "/imagenet/imagenet-c/fog/1", transform = transform)
+    elif dataset.lower() == "imagenet-c2":
+        data = Imagenet_Folder_with_indices(data_dir + "/imagenet/imagenet-c/contrast/2", transform = transform)
+    elif dataset.lower() == "imagenet-c3":
+        data = Imagenet_Folder_with_indices(data_dir + "/imagenet/imagenet-c/snow/3", transform = transform)
+    elif dataset.lower() == "imagenet-c4":
+        data = Imagenet_Folder_with_indices(data_dir + "/imagenet/imagenet-c/gaussian_blur/4", transform = transform)
+    elif dataset.lower() == "imagenet-c5":
+        data = Imagenet_Folder_with_indices(data_dir + "/imagenet/imagenet-c/saturate/5", transform = transform)
     elif dataset.lower() == "imagenetv2":
-        data = Imagenet_Folder_with_indices(pathlib.Path(IMAGENETV2_DIR), transform = transform)
-    # elif dataset.lower() == "office31-amazon":
-    #     data = Imagenet_Folder_with_indices(data_dir + "/office31/amazon/images/", transform = transform)
-    # elif dataset.lower() == "office31-dslr":
-    #     data = Imagenet_Folder_with_indices(data_dir + "/office31/dslr/images/", transform = transform)
-    # elif dataset.lower() == "office31-webcam":
-    #     data = Imagenet_Folder_with_indices(data_dir + "/office31/webcam/images/", transform = transform)
-    # elif dataset.lower() == "officehome-product":
-    #     data = Imagenet_Folder_with_indices(data_dir + "/officehome/Product/", transform = transform)
-    # elif dataset.lower() == "officehome-realworld":
-    #     data = Imagenet_Folder_with_indices(data_dir + "/officehome/RealWorld/", transform = transform)
-    # elif dataset.lower() == "officehome-art":
-    #     data = Imagenet_Folder_with_indices(data_dir + "/officehome/Art/", transform = transform)
-    # elif dataset.lower() == "officehome-clipart":
-    #     data = Imagenet_Folder_with_indices(data_dir + "/officehome/Clipart/", transform = transform)  
-    # elif dataset.lower() == "fashion-mnist": 
-        # data = fm_idx(root = data_dir, train=False, transform=transform, download=True)
+        data = Imagenet_Folder_with_indices(data_dir + "/imagenet/imagenetv2/imagenetv2-matched-frequency-format-val", transform = transform)
+    elif dataset.lower() == "office31-amazon":
+        data = Imagenet_Folder_with_indices(data_dir + "/office31/amazon/images/", transform = transform)
+    elif dataset.lower() == "office31-dslr":
+        data = Imagenet_Folder_with_indices(data_dir + "/office31/dslr/images/", transform = transform)
+    elif dataset.lower() == "office31-webcam":
+        data = Imagenet_Folder_with_indices(data_dir + "/office31/webcam/images/", transform = transform)
+    elif dataset.lower() == "officehome-product":
+        data = Imagenet_Folder_with_indices(data_dir + "/officehome/Product/", transform = transform)
+    elif dataset.lower() == "officehome-realworld":
+        data = Imagenet_Folder_with_indices(data_dir + "/officehome/RealWorld/", transform = transform)
+    elif dataset.lower() == "officehome-art":
+        data = Imagenet_Folder_with_indices(data_dir + "/officehome/Art/", transform = transform)
+    elif dataset.lower() == "officehome-clipart":
+        data = Imagenet_Folder_with_indices(data_dir + "/officehome/Clipart/", transform = transform)  
+    elif dataset.lower() == "fashion-mnist": 
+        data = fm_idx(root = data_dir, train=False, transform=transform, download=True)
     elif dataset.lower() == "pets":
-        data = ImageFolder_with_indices((str(pathlib.Path(PETS_DIR) / 'images')), transform = transform)
+        data = pets_idx(root=data_dir + "/Oxford_Pets", transform=transform, download=False)
     elif dataset.lower() == "cub":
-        data = ImageFolder_with_indices(pathlib.Path(CUB_DIR), transform=transform)
+        data = Imagenet_Folder_with_indices(data_dir + "/CUB/CUB_200_2011/images", transform=transform)
     elif dataset.lower() == "places365":
-        data = ImageFolder_with_indices(pathlib.Path(PLACES_DIR), transform=transform)
+        data = places_idx(root=data_dir + "/places_devkit/torch_download/", split='val', small=True, transform=transform)
     elif dataset.lower() == "dtd":
-        data = ImageFolder_with_indices(pathlib.Path(DTD_DIR), transform=transform)
-
-
+        data = dtd_idx(root=data_dir, split='test', transform=transform, download=False)
     else:
         raise NotImplementedError("Please add support for %s dataset" % dataset)
     return data
