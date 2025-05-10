@@ -9,3 +9,4 @@ ClipViTL14/*
 */__pycache__/*
 zshot_outputs/*
 automation.txt
+__pycache__/*.pyc
