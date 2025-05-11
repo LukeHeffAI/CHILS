@@ -27,23 +27,9 @@ from robustness.tools.helpers import *
 from robustness.tools.breeds_helpers import *
 from torchvision.datasets import ImageFolder
 from collections import defaultdict
+from data_utils import get_dataset
 from .constants import *
 
-
-def dataset_with_indices(cls):
-    """
-    Modifies the given Dataset class to return a tuple data, target, index
-    instead of just data, target.
-    """
-
-    def __getitem__(self, index):
-        data, target = cls.__getitem__(self, index)
-        return data, target, index
-
-    return type(cls.__name__, (cls,), {
-        '__getitem__': __getitem__,
-    })
-Imagenet_Folder_with_indices = dataset_with_indices(ImageFolder)
 
 def query_gpt_prompt(prompt):
     
