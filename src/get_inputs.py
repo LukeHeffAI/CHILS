@@ -37,6 +37,9 @@ def get_inputs(args):
     # Path for label sets - check project root first
     project_root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
     label_sets_path = os.path.join(project_root, "label_sets")
+
+    data_dir = args.data_dir
+    dataset = args.dataset
     
     if args.dataset in ['nonliving26', 'living17', 'entity13', 'entity30', 'inet1', 'inet2', 'inet3', 'inet4', 'inet5', 'inet6']:
         hier = ClassHierarchy(f"{args.data_dir}/imagenet/imagenet_hierarchy/")
@@ -74,7 +77,7 @@ def get_inputs(args):
     elif args.dataset == 'office31':
         data = np.load(features_file % f'office31-{args.domain}')
         features, labels, outputs, indices = data["features"], data["labels"], data["outputs"], data["indices"]
-        datad = Imagenet_Folder_with_indices(f'{args.data_dir}/office31/{args.domain}/images/')
+        datad = get_dataset(data_dir=data_dir, dataset=dataset)
         _, breeds_idx = datad.find_classes(f'{args.data_dir}/office31/{args.domain}/images/')
         breeds_idx = {" ".join(k.split("_")): v for k,v in breeds_idx.items()}
         super_classes = list(breeds_idx.keys())
@@ -83,7 +86,7 @@ def get_inputs(args):
         data = np.load(features_file % f'officehome-{args.domain}')
         dom_map = {'art': 'Art', 'clipart': 'Clipart', 'product': 'Product', 'realworld': 'RealWorld'}
         features, labels, outputs, indices = data["features"], data["labels"], data["outputs"], data["indices"]
-        datad = Imagenet_Folder_with_indices(f'{args.data_dir}/officehome/{dom_map[args.domain]}/')
+        datad = get_dataset(data_dir=data_dir, dataset=dataset)
         _, breeds_idx = datad.find_classes(f'{args.data_dir}/officehome/{dom_map[args.domain]}/')
         breeds_idx = {" ".join(k.split("_")): v for k,v in breeds_idx.items()}
         super_classes = list(breeds_idx.keys())
@@ -91,7 +94,7 @@ def get_inputs(args):
     elif args.dataset == 'fashion1M':
         data = np.load(features_file % 'fashion1M'.lower())
         features, labels, outputs, indices = data["features"], data["labels"], data["outputs"], data["indices"]
-        datad = Imagenet_Folder_with_indices(f'{args.data_dir}/fashion1M/clean_data/')
+        datad = get_dataset(data_dir=data_dir, dataset=dataset)
         _, breeds_idx = datad.find_classes(f'{args.data_dir}/fashion1M/clean_data/')
         breeds_idx = {" ".join(k.split("_")): v for k,v in breeds_idx.items()}
         super_classes = list(breeds_idx.keys())
@@ -99,7 +102,7 @@ def get_inputs(args):
     elif args.dataset == 'fashion-mnist':
         data = np.load(features_file % 'fashion-mnist')
         features, labels, outputs, indices = data["features"], data["labels"], data["outputs"], data["indices"]
-        fm_idx = dataset_with_indices(datasets.FashionMNIST)
+        fm_idx = get_dataset(data_dir=data_dir, dataset=dataset)
         datad = fm_idx(root = args.data_dir, train=False, download=True)
         breeds_idx = datad.class_to_idx
         breeds_idx['T-shirt'] = breeds_idx.pop('T-shirt/top')
@@ -109,7 +112,7 @@ def get_inputs(args):
     elif args.dataset == 'lsun-scene':
         data = np.load(features_file % 'lsun-scene')
         features, labels, outputs, indices = data["features"], data["labels"], data["outputs"], data["indices"]
-        datad = Imagenet_Folder_with_indices(f'{args.data_dir}/lsun/scene/')
+        datad = get_dataset(data_dir=data_dir, dataset=dataset)
         _, breeds_idx = datad.find_classes(f'{args.data_dir}/lsun/scene/')
         breeds_idx = {" ".join(k.split("_")): v for k,v in breeds_idx.items()}
         super_classes = list(breeds_idx.keys())
@@ -117,7 +120,7 @@ def get_inputs(args):
     elif args.dataset == 'resisc45':
         data = np.load(features_file % 'resisc45')
         features, labels, outputs, indices = data["features"], data["labels"], data["outputs"], data["indices"]
-        datad = Imagenet_Folder_with_indices(f'{args.data_dir}/RESISC45/NWPU-RESISC45/')
+        datad = get_dataset(data_dir=data_dir, dataset=dataset)
         _, breeds_idx = datad.find_classes(f'{args.data_dir}/RESISC45/NWPU-RESISC45/')
         breeds_idx = {" ".join(k.split("_")): v for k,v in breeds_idx.items()}
         super_classes = list(breeds_idx.keys())
@@ -125,7 +128,7 @@ def get_inputs(args):
     elif args.dataset == 'eurosat':
         data = np.load(features_file % 'eurosat')
         features, labels, outputs, indices = data["features"], data["labels"], data["outputs"], data["indices"]
-        datad = Imagenet_Folder_with_indices(f'{args.data_dir}/EuroSAT/2750/')
+        datad = get_dataset(data_dir=data_dir, dataset=dataset)
         _, breeds_idx = datad.find_classes(f'{args.data_dir}/EuroSAT/2750/')
         breeds_idx = {EUROFILE2NAME[k]: v for k,v in breeds_idx.items()}
         super_classes = list(breeds_idx.keys())
@@ -133,7 +136,7 @@ def get_inputs(args):
     elif args.dataset == 'food-101':
         data = np.load(features_file % 'food-101')
         features, labels, outputs, indices = data["features"], data["labels"], data["outputs"], data["indices"]
-        datad = Imagenet_Folder_with_indices(f'{args.data_dir}/food-101/images/')
+        datad = get_dataset(data_dir=data_dir, dataset=dataset)
         _, breeds_idx = datad.find_classes(f'{args.data_dir}/food-101/images/')
         breeds_idx = {" ".join(k.split("_")): v for k,v in breeds_idx.items()}
         super_classes = list(breeds_idx.keys())
@@ -141,7 +144,7 @@ def get_inputs(args):
     elif args.dataset == 'pets':
         data = np.load(features_file % 'pets')
         features, labels, outputs, indices = data["features"], data["labels"], data["outputs"], data["indices"]
-        datad = Imagenet_Folder_with_indices(f'{args.data_dir}/Oxford_Pets/images/')
+        datad = get_dataset(data_dir=data_dir, dataset=dataset)
         _, breeds_idx = datad.find_classes(f'{args.data_dir}/Oxford_Pets/images/')
         breeds_idx = {" ".join(k.split("_")): v for k,v in breeds_idx.items()}
         super_classes = list(breeds_idx.keys())
@@ -149,7 +152,7 @@ def get_inputs(args):
     elif args.dataset == 'cub':
         data = np.load(features_file % 'cub')
         features, labels, outputs, indices = data["features"], data["labels"], data["outputs"], data["indices"]
-        datad = Imagenet_Folder_with_indices(f'{args.data_dir}/CUB/CUB_200_2011/images/')
+        datad = get_dataset(data_dir=data_dir, dataset=dataset)
         _, breeds_idx = datad.find_classes(f'{args.data_dir}/CUB/CUB_200_2011/images/')
         # Clean up class names - get rid of numbers and format properly
         breeds_idx = {k.split('.')[-1].replace('_', ' '): v for k,v in breeds_idx.items()}
@@ -158,16 +161,24 @@ def get_inputs(args):
     elif args.dataset == 'places365':
         data = np.load(features_file % 'places365')
         features, labels, outputs, indices = data["features"], data["labels"], data["outputs"], data["indices"]
-        datad = Imagenet_Folder_with_indices(f'{args.data_dir}/places365/val/')
-        _, breeds_idx = datad.find_classes(f'{args.data_dir}/places365/val/')
+        datad = get_dataset(data_dir=data_dir, dataset=dataset)
+        _, breeds_idx = datad.find_classes(f'{args.data_dir}/places_devkit/torch_download/')
         breeds_idx = {" ".join(k.split("_")): v for k,v in breeds_idx.items()}
         super_classes = list(breeds_idx.keys())
         
     elif args.dataset == 'dtd':
         data = np.load(features_file % 'dtd')
         features, labels, outputs, indices = data["features"], data["labels"], data["outputs"], data["indices"]
-        datad = Imagenet_Folder_with_indices(f'{args.data_dir}/dtd/images/')
+        datad = get_dataset(data_dir=data_dir, dataset=dataset)
         _, breeds_idx = datad.find_classes(f'{args.data_dir}/dtd/images/')
+        breeds_idx = {" ".join(k.split("_")): v for k,v in breeds_idx.items()}
+        super_classes = list(breeds_idx.keys())
+
+    elif args.dataset == 'imagenet':
+        data = np.load(features_file % 'imagenet')
+        features, labels, outputs, indices = data["features"], data["labels"], data["outputs"], data["indices"]
+        datad = get_dataset(data_dir=data_dir, dataset=dataset)
+        _, breeds_idx = datad.find_classes(f'{args.data_dir}/imagenet/val')
         breeds_idx = {" ".join(k.split("_")): v for k,v in breeds_idx.items()}
         super_classes = list(breeds_idx.keys())
 
@@ -186,7 +197,7 @@ def get_inputs(args):
 
     elif args.dataset == 'fruits360':
         data = np.load(features_file % 'fruits360')
-        datad = Imagenet_Folder_with_indices(f'{args.data_dir}/fruits-360/Training/')
+        datad = get_dataset(data_dir=data_dir, dataset=dataset)
         _, breeds_idx = datad.find_classes(f'{args.data_dir}/fruits-360/Training/')
         features, labels, outputs, indices = data["features"], data["labels"], data["outputs"], data["indices"]
         super_classes = list(np.unique(list(FRUITS360_OG2SUP.values())))
@@ -204,7 +215,7 @@ def get_inputs(args):
     elif args.dataset == 'objectnet':
         with open(f"{args.data_dir}/objectnet-1.0/mappings/folder_to_objectnet_label.json", 'r') as f:
             fold2obj = json.load(f)
-        datad = Imagenet_Folder_with_indices(f'{args.data_dir}/objectnet-1.0/images/')
+        datad = get_dataset(data_dir=data_dir, dataset=dataset)
         _, breeds_idx = datad.find_classes(f'{args.data_dir}/objectnet-1.0/images/')
         breeds_idx = {fold2obj[k]: v for k,v in breeds_idx.items()}
         super_classes = list(breeds_idx.keys())
