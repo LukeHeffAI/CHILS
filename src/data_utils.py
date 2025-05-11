@@ -583,18 +583,12 @@ def get_dataset(data_dir, dataset, train, transform):
         data = inet_idx(data_dir + "/imagenet/imagenet-sketch/sketch", transform = transform, split='val')
     elif dataset.lower() == "fruits360":
         data = Imagenet_Folder_with_indices(data_dir + "/fruits-360/Test", transform = transform)
-    elif dataset.lower() == "food-101":
-        data = f101_idx(root=data_dir + "/FOOD_101", transform = transform, split='test') 
     # elif dataset.lower() == "resisc45":
     #     data = r45_idx(data_dir + '/RESISC45', transforms = transform, split='val') 
-    elif dataset.lower() == "eurosat":
-        data = esat_idx(data_dir, transform = transform, download=False) 
     elif dataset.lower() == "lsun-scene":
         data = Imagenet_Folder_with_indices(data_dir + "/lsun/scene", transform = transform) 
     elif dataset.lower() in ["fashion1M", 'fashion1m']:
         data = Imagenet_Folder_with_indices(data_dir + "/fashion1M/clean_data", transform = transform)
-    elif dataset.lower() == "imagenet":
-        data = Imagenet_Folder_with_indices(data_dir + "/imagenet/val", transform = transform)
     elif dataset.lower() == "objectnet":
         data = Imagenet_Folder_with_indices(data_dir + "/objectnet-1.0/images", transform = transform)
     elif dataset.lower() == "imagenet-c1":
@@ -625,6 +619,8 @@ def get_dataset(data_dir, dataset, train, transform):
         data = Imagenet_Folder_with_indices(data_dir + "/officehome/Clipart/", transform = transform)  
     elif dataset.lower() == "fashion-mnist": 
         data = fm_idx(root = data_dir, train=False, transform=transform, download=True)
+    elif dataset.lower() == "imagenet":
+        data = Imagenet_Folder_with_indices(data_dir + "/imagenet/val", transform = transform)
     elif dataset.lower() == "pets":
         data = pets_idx(root=data_dir + "/Oxford_Pets", transform=transform, download=False)
     elif dataset.lower() == "cub":
@@ -633,6 +629,10 @@ def get_dataset(data_dir, dataset, train, transform):
         data = places_idx(root=data_dir + "/places_devkit/torch_download/", split='val', small=True, transform=transform)
     elif dataset.lower() == "dtd":
         data = dtd_idx(root=data_dir, split='test', transform=transform, download=False)
+    elif dataset.lower() == "eurosat":
+        data = esat_idx(data_dir, transform = transform, download=False)
+    elif dataset.lower() == "food-101":
+        data = f101_idx(root=data_dir + "/FOOD_101", transform = transform, split='test') 
     else:
         raise NotImplementedError("Please add support for %s dataset" % dataset)
     return data
