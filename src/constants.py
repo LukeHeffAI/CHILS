@@ -1,6 +1,6 @@
 import numpy as np
 DATASETS = [
-    'cifar20', 'nonliving26', 'living17', 'entity13', 'entity30', 'lsun-scene', 'fashion1M', 'objectnet', 'food-101', 'fruits360', 'office31', 'officehome', 'fashion-mnist', 'eurosat', 'resisc45', 'inet1', 'inet2', 'inet3', 'inet4', 'inet5', 'inet6', 'places365', 'pets', 'cub', 'dtd'
+    'cifar20', 'nonliving26', 'living17', 'entity13', 'entity30', 'lsun-scene', 'fashion1M', 'objectnet', 'food-101', 'fruits360', 'office31', 'officehome', 'fashion-mnist', 'eurosat', 'resisc45', 'imagenet', 'inet1', 'inet2', 'inet3', 'inet4', 'inet5', 'inet6', 'places365', 'pets', 'cub', 'dtd'
 ]
 TRUESETS = ['nonliving26', 'living17', 'entity13', 'entity30', 'fruits360', 'objectnet', 'cifar20', 'inet1', 'inet2', 'inet3', 'inet4', 'inet5', 'inet6']
 DOMAINS = {
